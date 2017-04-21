@@ -9,7 +9,6 @@
 
 typedef unsigned long ulong;
 
-
 using namespace std;
 
 class gshare{
@@ -81,14 +80,14 @@ class gshare{
     gbhr = gbhr | (i << (h - 1));
   }
   
-  bool is_taken(ulong address, int actual_branch){
+  bool is_taken(ulong address){
     set_index(address);
     return predictor_table.at(index) >=2 ? true : false;
   }
 
 
   void print_output(){
-    cout << "\nOUTPUT\nnumber of predictions: " << predictions << "\nnumber of mispredictions: " << mispredictions << fixed << setprecision(2) << "\nMisprediction rate: " << (float)mispredictions*100/predictions << "%\n";
+    cout << "OUTPUT\nnumber of predictions: " << predictions << "\nnumber of mispredictions: " << mispredictions << fixed << setprecision(2) << "\nMisprediction rate: " << (float)mispredictions*100/predictions << "%\n";
   }
 
   void print_stats(){

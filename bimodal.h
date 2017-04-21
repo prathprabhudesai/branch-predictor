@@ -8,7 +8,13 @@
 #include<map>
 
 typedef unsigned long ulong;
+
+#ifndef COMM_ENUMS
 #include "common_enums.h"
+#define COMM_ENUMS
+#endif
+
+
 
 using namespace std;
 
@@ -40,7 +46,7 @@ class bimodal{
     return update_predictor(actual_branch, predicted_branch);
   }
 
-  bool is_taken(ulong address, int actual_branch){
+  bool is_taken(ulong address){
     set_index(address);
     return predictor_table.at(index) >=2 ? true : false;    
   }
@@ -71,7 +77,7 @@ class bimodal{
   }
   
   void print_output(){
-    cout << "\nOUTPUT\nnumber of predictions: " << predictions << "\nnumber of mispredictions: " << mispredictions << fixed << setprecision(2) << "\nMisprediction rate: " << (float)mispredictions*100/predictions << "%\n";
+    cout << "OUTPUT\nnumber of predictions: " << predictions << "\nnumber of mispredictions: " << mispredictions << fixed << setprecision(2) << "\nMisprediction rate: " << (float)mispredictions*100/predictions << "%\n";
   }
 
   void print_stats(){
