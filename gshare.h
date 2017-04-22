@@ -35,10 +35,14 @@ class gshare{
     ulong temp, xored;
     temp = address >> 2;
     temp = temp & mask1;
-    xored = gbhr ^ (temp >> (iG - h));
-    xored = xored << (iG - h);
-    temp = temp & mask2;
-    index = xored | temp; 
+    if (h > 0) {
+      xored = gbhr ^ (temp >> (iG - h));
+      xored = xored << (iG - h);
+      temp = temp & mask2; 
+      index = xored | temp;
+    }
+    else
+      index = temp;
   }
 
   int access(ulong address, int actual_branch){
@@ -76,8 +80,10 @@ class gshare{
   }
 
   void update_gbhr(int i){
-    gbhr = gbhr >> 1; 
-    gbhr = gbhr | (i << (h - 1));
+    if (h > 0) {
+      gbhr = gbhr >> 1; 
+      gbhr = gbhr | (i << (h - 1));
+    }
   }
   
   bool is_taken(ulong address){

@@ -36,6 +36,10 @@ bool read_command_line_input (int argc, char *argv[], int *iB, int *iG, int *h,i
   case GSHARE:
     *iG = atoi(argv[2]);
     *h = atoi(argv[3]);
+    if (*h > *iG){ 
+      cout << "Value of h greater than iG" << endl;
+      return false;
+    }
     fname = argv[4];
     cout << "COMMAND\n./sim_bp " << argv[1] << " " << *iG << " " << *h  << " " << fname << endl;
     break;
@@ -45,6 +49,10 @@ bool read_command_line_input (int argc, char *argv[], int *iB, int *iG, int *h,i
     *iG = atoi(argv[3]);
     *h = atoi(argv[4]);
     *iB = atoi(argv[5]); 
+    if( *h > *iG){ 
+      cout << "Value of h greater than iG" << endl;
+      return false;
+    }
     fname = argv[6];
     cout << "COMMAND\n./sim_bp " << argv[1] << " "<< *k << " " << *iG << " " << *h  << " " << *iB  << " "<< fname << endl;
     break;
@@ -88,38 +96,38 @@ int main(int argc, char *argv[]){
     b->init(iB);
     while(1) {
       if(fscanf(trace_file, "%lx %c", &address, &actual_branch) != EOF)
-        b->access(address, branch_label(actual_branch));
-      else break;
-    }
-    b->print_output();
-    b->print_stats();
-    break;
+	  b->access(address, branch_label(actual_branch));
+	else break;
+      }
+      b->print_output();
+      b->print_stats();
+      break;
 
-  case GSHARE:
-    g->init(iG,h);  
-    while(1) {
-      if(fscanf(trace_file, "%lx %c", &address, &actual_branch) != EOF)
-        g->access(address, branch_label(actual_branch));
-      else break;
-    }
-    g->print_output();
-    g->print_stats();
-    break;
+    case GSHARE:
+      g->init(iG,h);  
+      while(1) {
+	if(fscanf(trace_file, "%lx %c", &address, &actual_branch) != EOF)
+	  g->access(address, branch_label(actual_branch));
+	else break;
+      }
+      g->print_output();
+      g->print_stats();
+      break;
 
-  case HYBRID:
-    H->init(iB, iG, h, k);
-    while(1) {
-      if(fscanf(trace_file, "%lx %c", &address, &actual_branch) != EOF)
-        H->access(address, branch_label(actual_branch));
-      else break;
+    case HYBRID:
+      H->init(iB, iG, h, k);
+      while(1) {
+	if(fscanf(trace_file, "%lx %c", &address, &actual_branch) != EOF)
+	  H->access(address, branch_label(actual_branch));
+	else break;
+      }
+      H->print_output();
+      H->print_stats();
+      break;
+    
+    default:
+      cout << "not implemented yet" << endl;
+    
     }
-    H->print_output();
-    H->print_stats();
-    break;
-    
-  default:
-    cout << "not implemented yet" << endl;
-    
+    return 1;
   }
-  return 1;
-}
