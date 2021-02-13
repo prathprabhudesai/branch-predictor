@@ -9,3 +9,5 @@
 <code>make all</code>
 
 ## Run the branch predictor
+
+<code>./sim_bp </code>
