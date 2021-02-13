@@ -10,4 +10,4 @@
 
 ## Run the branch predictor
 
-<code>./sim_bp </code>
+<code>./sim_bp </code> will print the help menu
